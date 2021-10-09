@@ -1,0 +1,121 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://GodotBalls/Piece07.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GodotBalls/GodotPiece_Blue.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GodotBalls/Piece01.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GodotBalls/Piece02.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GodotBalls/Piece03.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GodotBalls/Piece04.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GodotBalls/Piece06.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GodotBalls/Piece09.tscn" type="PackedScene" id=9]
+[ext_resource path="res://GodotBalls/Piece08.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Graphics/icon.png" type="Texture" id=11]
+[ext_resource path="res://Graphics/GrayscaleMat.tres" type="Material" id=12]
+[ext_resource path="res://Graphics/EffectsParticles.tscn" type="PackedScene" id=13]
+[ext_resource path="res://GodotBalls/Piece10.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Graphics/Bangers.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://Scripts/GUI.gd" type="Script" id=16]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 227.969, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.2396, 576.848 )
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.146341, 0.341463, 0.552846, 0.739837, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1, 0.992157, 1, 0, 1, 0, 0.529412, 1, 1, 0.403922, 0.00784314, 0.376471, 1, 0.321569, 0.988235, 0.694118, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 17
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 15 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+toSpawn = [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 14 ) ]
+
+[node name="FX" parent="." instance=ExtResource( 13 )]
+position = Vector2( -290.995, -64.0723 )
+explosiveness = 1.0
+initial_velocity = 600.0
+
+[node name="Level" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="Level"]
+position = Vector2( 189.742, 647.748 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Floor"]
+shape = SubResource( 1 )
+
+[node name="Wall" type="StaticBody2D" parent="Level"]
+position = Vector2( 228.927, 430.454 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall"]
+position = Vector2( 159.354, -326.3 )
+shape = SubResource( 2 )
+
+[node name="Wall2" type="StaticBody2D" parent="Level"]
+position = Vector2( -173.059, 365.572 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall2"]
+position = Vector2( 159.354, -264.004 )
+shape = SubResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Indicator" type="Sprite" parent="."]
+material = ExtResource( 12 )
+position = Vector2( -168.19, -48.0542 )
+texture = ExtResource( 11 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+script = ExtResource( 16 )
+textColor = SubResource( 3 )
+
+[node name="ScoreLabel" type="Label" parent="GUI"]
+margin_left = 9.0
+margin_top = 6.6123
+margin_right = 144.0
+margin_bottom = 53.6123
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 3
+text = "680"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScoreLabel" type="Label" parent="GUI"]
+margin_left = 11.3811
+margin_top = 37.9635
+margin_right = 146.381
+margin_bottom = 84.9635
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 3
+text = "high: "
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="GUI"]
+
+[node name="Timer" type="Timer" parent="GUI"]
+
+[connection signal="onFruitMerge" from="." to="GUI" method="_on_Main_onFruitMerge"]
+[connection signal="onGameOver" from="." to="GUI" method="_on_Main_onGameOver"]

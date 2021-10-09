@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Graphics/icon.png" type="Texture" id=2]
+[ext_resource path="res://Graphics/GrayscaleMat.tres" type="Material" id=3]
+
+[sub_resource type="PhysicsMaterial" id=1]
+rough = true
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 31.0331
+
+[node name="GodotPiece" type="RigidBody2D"]
+position = Vector2( 144.326, 87.3081 )
+physics_material_override = SubResource( 1 )
+gravity_scale = 4.56
+contacts_reported = 15
+contact_monitor = true
+
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 3 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
